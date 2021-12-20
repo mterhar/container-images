@@ -142,7 +142,7 @@ jobs:
       with:
         build-args: VERSION=${{ steps.prep.outputs.version }}
         labels: |
-          org.opencontainers.image.created="$(date --rfc-3339=seconds --utc)"
+          org.opencontainers.image.created=$(date --rfc-3339=seconds --utc)
         context: .
         file: ./${{ steps.prep.outputs.category }}/${{ matrix.container }}/Dockerfile
         load: true
