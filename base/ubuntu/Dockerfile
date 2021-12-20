@@ -126,5 +126,6 @@ COPY ./base/ubuntu/shim /shim
 
 ENTRYPOINT [ "/usr/bin/tini", "--" ]
 
-LABEL "maintainer"="Devin Buhl <devin.kray@gmail.com>, Bernd Schorgers <me@bjw-s.dev>"
-LABEL "org.opencontainers.image.source"="https://github.com/k8s-at-home/container-images"
+LABEL \
+  org.opencontainers.image.base.name="ghcr.io/k8s-at-home/ubuntu:${VERSION}" \
+  org.opencontainers.image.authors="Devin Buhl <devin.kray@gmail.com>, Bernd Schorgers <me@bjw-s.dev>"

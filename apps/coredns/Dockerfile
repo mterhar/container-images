@@ -66,5 +66,4 @@ LABEL org.opencontainers.image.title="CoreDNS" \
       org.opencontainers.image.source="https://github.com/coredns/coredns" \
       org.opencontainers.image.authors="Anthony Rabbito <hello@anthonyrabbito.com>" \
       org.opencontainers.image.version="${VERSION}" \
-      org.opencontainers.image.created="$(date --rfc-3339=seconds --utc)" \
       coredns-external-plugins="alternate, mdns, wgsd, k8s_gateway"

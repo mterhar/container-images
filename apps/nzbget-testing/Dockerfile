@@ -59,5 +59,4 @@ CMD ["/entrypoint.sh"]
 LABEL \
   org.opencontainers.image.title="NZBGet" \
   org.opencontainers.image.source="https://github.com/nzbget/nzbget" \
-  org.opencontainers.image.version="${VERSION}" \
-  org.opencontainers.image.created="$(date --rfc-3339=seconds --utc)"
+  org.opencontainers.image.version="${VERSION}"

@@ -51,5 +51,4 @@ CMD ["/entrypoint.sh"]
 LABEL \
   org.opencontainers.image.title="Radarr" \
   org.opencontainers.image.source="https://github.com/Radarr/Radarr" \
-  org.opencontainers.image.version="${VERSION}" \
-  org.opencontainers.image.created="$(date --rfc-3339=seconds --utc)"
+  org.opencontainers.image.version="${VERSION}"
