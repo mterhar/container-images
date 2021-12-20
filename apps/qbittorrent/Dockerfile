@@ -38,8 +38,11 @@ RUN \
     zlib1g-dev
 
 # Install lintorrent-rasterbar dependencies
-# https://launchpad.net/~qbittorrent-team/+archive/ubuntu/qbittorrent-stable/
+# https://launchpad.net/~qbittorrent-team/+archive/ubuntu/qbittorrent-stable/+packages
 RUN \
+  export LIBTORRENT_VERSION="libtorrent-rasterbar20_2.0.5+git20211209.096544cfd1-2ppa1~20.04" \
+  && export LIBTORRENT_DEV_VERSION="libtorrent-rasterbar-dev_2.0.5+git20211209.096544cfd1-2ppa1~20.04" \
+  && \
   case "${TARGETPLATFORM}" in \
     'linux/amd64') \
       export LIBTORRENT_ARCH='amd64'; \
@@ -49,8 +52,8 @@ RUN \
       ;; \
   esac \
   && \
-  export LIBTORRENT_DEB="libtorrent-rasterbar10_1.2.14+git20210829.1178e4e0f3-1ppa1~20.04_${LIBTORRENT_ARCH}.deb" \
-  && export LIBTORRENT_DEV_DEB="libtorrent-rasterbar-dev_1.2.14+git20210829.1178e4e0f3-1ppa1~20.04_${LIBTORRENT_ARCH}.deb" \
+  export LIBTORRENT_DEB="${LIBTORRENT_VERSION}_${LIBTORRENT_ARCH}.deb" \
+  && export LIBTORRENT_DEV_DEB="${LIBTORRENT_DEV_VERSION}_${LIBTORRENT_ARCH}.deb" \
   && \
   curl -fsSL -o libtorrent-rasterbar.deb \
     "https://launchpad.net/~qbittorrent-team/+archive/ubuntu/qbittorrent-stable/+files/${LIBTORRENT_DEB}" \
@@ -87,8 +90,12 @@ USER root
 
 COPY --from=builder /usr/local/bin/qbittorrent-nox-stripped /app/qbittorrent-nox
 
+# Install lintorrent-rasterbar dependencies
+# https://launchpad.net/~qbittorrent-team/+archive/ubuntu/qbittorrent-stable/+packages
 # hadolint ignore=DL3008,DL3015,SC2086
 RUN \
+  export LIBTORRENT_VERSION="libtorrent-rasterbar20_2.0.5+git20211209.096544cfd1-2ppa1~20.04" \
+  && \
   case "${TARGETPLATFORM}" in \
     'linux/amd64') \
       export LIBTORRENT_ARCH='amd64'; \
@@ -98,7 +105,7 @@ RUN \
       ;; \
   esac \
   && \
-  export LIBTORRENT_DEB="libtorrent-rasterbar10_1.2.14+git20210829.1178e4e0f3-1ppa1~20.04_${LIBTORRENT_ARCH}.deb" \
+  export LIBTORRENT_DEB="${LIBTORRENT_VERSION}_${LIBTORRENT_ARCH}.deb" \
   && \
   curl -fsSL -o /tmp/libtorrent-rasterbar.deb \
     "https://launchpad.net/~qbittorrent-team/+archive/ubuntu/qbittorrent-stable/+files/${LIBTORRENT_DEB}" \
