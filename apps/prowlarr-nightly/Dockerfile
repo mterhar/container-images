@@ -46,3 +46,9 @@ EXPOSE 9696
 
 COPY ./apps/prowlarr/entrypoint.sh /entrypoint.sh
 CMD ["/entrypoint.sh"]
+
+LABEL \
+  org.opencontainers.image.title="Prowlarr" \
+  org.opencontainers.image.source="https://github.com/Prowlarr/Prowlarr" \
+  org.opencontainers.image.version="${VERSION}" \
+  org.opencontainers.image.created="$(date --rfc-3339=seconds --utc)"

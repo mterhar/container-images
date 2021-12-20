@@ -50,3 +50,9 @@ EXPOSE 9117
 
 COPY ./apps/jackett/entrypoint.sh /entrypoint.sh
 CMD ["/entrypoint.sh"]
+
+LABEL \
+  org.opencontainers.image.title="Jackett" \
+  org.opencontainers.image.source="https://github.com/Jackett/Jackett" \
+  org.opencontainers.image.version="${VERSION}" \
+  org.opencontainers.image.created="$(date --rfc-3339=seconds --utc)"

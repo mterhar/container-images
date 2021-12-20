@@ -42,3 +42,9 @@ EXPOSE 5076
 
 COPY ./apps/nzbhydra2/entrypoint.sh /entrypoint.sh
 CMD ["/entrypoint.sh"]
+
+LABEL \
+  org.opencontainers.image.title="NZBHydra2" \
+  org.opencontainers.image.source="https://github.com/theotherp/nzbhydra2" \
+  org.opencontainers.image.version="${VERSION}" \
+  org.opencontainers.image.created="$(date --rfc-3339=seconds --utc)"

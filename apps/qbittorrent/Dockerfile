@@ -132,9 +132,13 @@ USER kah
 EXPOSE 6881 6881/udp ${WEBUI_PORT}
 
 COPY ./apps/qbittorrent/qBittorrent.conf /app/qBittorrent.conf
-
 COPY ./apps/qbittorrent/shim/config.py /shim/config.py
-
 COPY ./apps/qbittorrent/entrypoint.sh /entrypoint.sh
 
 CMD ["/entrypoint.sh"]
+
+LABEL \
+  org.opencontainers.image.title="qBittorrent" \
+  org.opencontainers.image.source="https://github.com/qbittorrent/qBittorrent" \
+  org.opencontainers.image.version="${VERSION}" \
+  org.opencontainers.image.created="$(date --rfc-3339=seconds --utc)"

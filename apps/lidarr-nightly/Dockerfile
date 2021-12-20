@@ -48,3 +48,9 @@ EXPOSE 8686
 
 COPY ./apps/lidarr/entrypoint.sh /entrypoint.sh
 CMD ["/entrypoint.sh"]
+
+LABEL \
+  org.opencontainers.image.title="Lidarr" \
+  org.opencontainers.image.source="https://github.com/Lidarr/Lidarr" \
+  org.opencontainers.image.version="${VERSION}" \
+  org.opencontainers.image.created="$(date --rfc-3339=seconds --utc)"
