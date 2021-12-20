@@ -73,6 +73,8 @@ jobs:
     - name: Prepare
       id: prep
       run: |
+        BUILD_DATE=$(date --rfc-3339=seconds --utc)
+        echo ::set-output name=build_date::${BUILD_DATE}
         if test -f "./apps/${{ matrix.container }}/Dockerfile"; then
           CATEGORY="apps"
         else
@@ -142,7 +144,7 @@ jobs:
       with:
         build-args: VERSION=${{ steps.prep.outputs.version }}
         labels: |
-          org.opencontainers.image.created=$(date --rfc-3339=seconds --utc)
+          org.opencontainers.image.created=${{ steps.prep.outputs.build_date }}
         context: .
         file: ./${{ steps.prep.outputs.category }}/${{ matrix.container }}/Dockerfile
         load: true
@@ -165,7 +167,7 @@ jobs:
       with:
         build-args: VERSION=${{ steps.prep.outputs.version }}
         labels: |
-          org.opencontainers.image.created=$(date --rfc-3339=seconds --utc)
+          org.opencontainers.image.created=${{ steps.prep.outputs.build_date }}
         context: .
         platforms: ${{ steps.prep.outputs.platform }}
         file: ./${{ steps.prep.outputs.category }}/${{ matrix.container }}/Dockerfile
