@@ -17,7 +17,10 @@ RUN \
     unrar \
     unzip \
   && \
-  export DOWNLOAD_URL=$(curl -sX GET "https://api.github.com/repos/userdocs/qbittorrent-nox-static/releases" | jq -r --arg VERSION "$VERSION" '.[] | select(.prerelease==false) | select(.tag_name | startswith("release-$VERSION")) | .assets | .[] | select(.browser_download_url | endswith("x86_64-qbittorrent-nox"))') \
+  case "${TARGETPLATFORM}" in \
+    'linux/amd64') export DOWNLOAD_URL=$(curl -sX GET "https://api.github.com/repos/userdocs/qbittorrent-nox-static/releases" | jq -r --arg VERSION "$VERSION" '.[] | select(.prerelease==false) | select(.tag_name | startswith("release-$VERSION")) | .assets | .[] | select(.browser_download_url | endswith("x86_64-qbittorrent-nox")) | .browser_download_url') ;; \
+    'linux/arm64') export DOWNLOAD_URL=$(curl -sX GET "https://api.github.com/repos/userdocs/qbittorrent-nox-static/releases" | jq -r --arg VERSION "$VERSION" '.[] | select(.prerelease==false) | select(.tag_name | startswith("release-$VERSION")) | .assets | .[] | select(.browser_download_url | endswith("aarch64-qbittorrent-nox")) | .browser_download_url') ;; \
+  esac \
   && curl -fsSL -o /app/qbittorrent-nox "${DOWNLOAD_URL}" \
   && chmod +x /app/qbittorrent-nox \
   && \
