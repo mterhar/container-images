@@ -1,7 +1,15 @@
 # hadolint ignore=DL3007
 FROM ghcr.io/k8s-at-home/ubuntu:latest
 
+ARG TARGETPLATFORM
+ARG BUILDPLATFORM
 ARG VERSION
+
+# Proper way to set config directory
+ENV HOME=/config \
+    XDG_CONFIG_HOME=/config \
+    XDG_DATA_HOME=/config \
+    WEBUI_PORT=8080
 
 USER root
 
@@ -18,9 +26,10 @@ RUN \
     unzip \
   && \
   case "${TARGETPLATFORM}" in \
-    'linux/amd64') export DOWNLOAD_URL=$(curl -sX GET "https://api.github.com/repos/userdocs/qbittorrent-nox-static/releases" | jq -r --arg VERSION "$VERSION" '.[] | select(.prerelease==false) | select(.tag_name | startswith("release-$VERSION")) | .assets | .[] | select(.browser_download_url | endswith("x86_64-qbittorrent-nox")) | .browser_download_url') ;; \
-    'linux/arm64') export DOWNLOAD_URL=$(curl -sX GET "https://api.github.com/repos/userdocs/qbittorrent-nox-static/releases" | jq -r --arg VERSION "$VERSION" '.[] | select(.prerelease==false) | select(.tag_name | startswith("release-$VERSION")) | .assets | .[] | select(.browser_download_url | endswith("aarch64-qbittorrent-nox")) | .browser_download_url') ;; \
+    'linux/amd64') export DOWNLOAD_URL=$(curl -sX GET "https://api.github.com/repos/userdocs/qbittorrent-nox-static/releases" | jq -r --arg VERSION "$VERSION" '.[] | select(.prerelease==false) | select(.tag_name | startswith("release-4.4.0")) | .assets | .[] | select(.browser_download_url | endswith("x86_64-qbittorrent-nox")) | .browser_download_url') ;; \
+    'linux/arm64') export DOWNLOAD_URL=$(curl -sX GET "https://api.github.com/repos/userdocs/qbittorrent-nox-static/releases" | jq -r --arg VERSION "$VERSION" '.[] | select(.prerelease==false) | select(.tag_name | startswith("release-4.4.0")) | .assets | .[] | select(.browser_download_url | endswith("aarch64-qbittorrent-nox")) | .browser_download_url') ;; \
   esac \
+  && echo $DOWNLOAD_URL \
   && curl -fsSL -o /app/qbittorrent-nox "${DOWNLOAD_URL}" \
   && chmod +x /app/qbittorrent-nox \
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
