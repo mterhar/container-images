@@ -23,7 +23,6 @@ RUN \
   esac \
   && curl -fsSL -o /app/qbittorrent-nox "${DOWNLOAD_URL}" \
   && chmod +x /app/qbittorrent-nox \
-  && \
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && apt-get autoremove -y \
   && apt-get clean \
