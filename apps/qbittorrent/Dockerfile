@@ -15,6 +15,7 @@ USER root
 
 # hadolint ignore=DL3008,DL3013,DL3015,SC2086
 RUN \
+  export EXTRA_INSTALL_ARG="binutils"; \
   apt-get -qq update \
   && \
   apt-get install -y \
@@ -24,14 +25,17 @@ RUN \
     python3 \
     unrar \
     unzip \
+    ${EXTRA_INSTALL_ARG} \
   && \
   case "${TARGETPLATFORM}" in \
-    'linux/amd64') export DOWNLOAD_URL=$(curl -sX GET "https://api.github.com/repos/userdocs/qbittorrent-nox-static/releases" | jq -r --arg VERSION "$VERSION" '.[] | select(.prerelease==false) | select(.tag_name | startswith("release-4.4.0")) | .assets | .[] | select(.browser_download_url | endswith("x86_64-qbittorrent-nox")) | .browser_download_url') ;; \
-    'linux/arm64') export DOWNLOAD_URL=$(curl -sX GET "https://api.github.com/repos/userdocs/qbittorrent-nox-static/releases" | jq -r --arg VERSION "$VERSION" '.[] | select(.prerelease==false) | select(.tag_name | startswith("release-4.4.0")) | .assets | .[] | select(.browser_download_url | endswith("aarch64-qbittorrent-nox")) | .browser_download_url') ;; \
+    'linux/amd64') export DOWNLOAD_URL=$(curl -sX GET "https://api.github.com/repos/userdocs/qbittorrent-nox-static/releases" | jq -r --arg version "${VERSION}" '.[] | select(.prerelease==false) | select(.tag_name | startswith("release-\($version)")) | .assets | .[] | select(.browser_download_url | endswith("x86_64-qbittorrent-nox")) | .browser_download_url') ;; \
+    'linux/arm64') export DOWNLOAD_URL=$(curl -sX GET "https://api.github.com/repos/userdocs/qbittorrent-nox-static/releases" | jq -r --arg version "${VERSION}" '.[] | select(.prerelease==false) | select(.tag_name | startswith("release-\($version)")) | .assets | .[] | select(.browser_download_url | endswith("aarch64-qbittorrent-nox")) | .browser_download_url') ;; \
   esac \
   && echo $DOWNLOAD_URL \
   && curl -fsSL -o /app/qbittorrent-nox "${DOWNLOAD_URL}" \
   && chmod +x /app/qbittorrent-nox \
+  && \
+  apt-get remove -y ${EXTRA_INSTALL_ARG} \
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && apt-get autoremove -y \
   && apt-get clean \
