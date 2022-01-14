@@ -13,6 +13,7 @@ RUN \
   && \
   apt-get -qq install -y \
     libicu66 \
+    sqlite3 \
   && \
   case "${TARGETPLATFORM}" in \
     'linux/amd64') export ARCH='x64' ;; \
