@@ -9,6 +9,12 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # hadolint ignore=DL3008,DL3015,SC2086
 RUN \
+  curl -L \
+    "https://mediaarea.net/repo/deb/repo-mediaarea_1.0-12_all.deb" \
+    -o /tmp/key.deb \
+  && dpkg -i /tmp/key.deb \
+  && echo "deb https://mediaarea.net/repo/deb/ubuntu focal main" | tee /etc/apt/sources.list.d/mediaarea.list \
+  && \
   apt-get -qq update \
   && apt-get -qq install -y gnupg \
 	&& \
