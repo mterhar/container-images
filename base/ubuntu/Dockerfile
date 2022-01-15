@@ -12,8 +12,7 @@ ENV \
   DEBCONF_NONINTERACTIVE_SEEN=true \
   DEBIAN_FRONTEND="noninteractive" \
   APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=DontWarn \
-  UMASK=0002 \
-  MICRO_CONFIG_HOME=/tmp
+  UMASK=0002
 
 RUN \
   adduser kah \
@@ -49,24 +48,13 @@ RUN \
     lsb-release \
     tini \
     tzdata \
+    vim-tiny \
   && \
   localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8 \
-  && \
-  case "${TARGETPLATFORM}" in \
-    'linux/amd64') export MICRO_ARCH='linux64' ;; \
-    'linux/arm64') export MICRO_ARCH='linux-arm64' ;; \
-    'linux/arm/v7') export MICRO_ARCH='linux-arm' ;; \
-  esac \
-  && MICRO_VERSION=$(curl -s "https://api.github.com/repos/zyedidia/micro/releases" | jq --raw-output '.[0].tag_name') \
-  && MICRO_VERSION="${MICRO_VERSION#?}" \
-  && curl -fsSL "https://github.com/zyedidia/micro/releases/download/v${MICRO_VERSION}/micro-${MICRO_VERSION}-${MICRO_ARCH}.tar.gz" | tar xzf - -C /tmp --strip-components=1 \
-  && mv /tmp/micro /usr/local/bin/micro \
-  && ln -s /usr/local/bin/micro /usr/local/bin/vi \
-  && ln -s /usr/local/bin/micro /usr/local/bin/vim \
-  && ln -s /usr/local/bin/micro /usr/local/bin/nano \
-  && ln -s /usr/local/bin/micro /usr/local/bin/emacs \
-  && unset MICRO_ARCH \
-  && unset MICRO_VERSION \
+  && ln -s /usr/bin/vim.tiny /usr/local/bin/vi \
+  && ln -s /usr/bin/vim.tiny /usr/local/bin/vim \
+  && ln -s /usr/bin/vim.tiny /usr/local/bin/nano \
+  && ln -s /usr/bin/vim.tiny /usr/local/bin/emacs \
   && chown -R kah:kah /app \
   && \
   printf "/bin/bash /shim/greeting.sh\n" >> /etc/bash.bashrc \
