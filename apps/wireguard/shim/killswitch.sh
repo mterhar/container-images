@@ -24,9 +24,9 @@ then
             sudo /usr/sbin/ip -4 route add "${entry}" via "${DEFAULTROUTE_IPV4}" || echo "[WARNING] Received non-zero exit code adding route ${entry} via ${DEFAULTROUTE_IPV4}"
             sudo /usr/sbin/iptables -A OUTPUT -d "${entry}" -j ACCEPT || echo "[WARNING] Received non-zero exit code adding iptables rule to ACCEPT ${entry}"
         done
-
-        sudo /usr/sbin/iptables -A OUTPUT ! -o "${INTERFACE}" -m mark ! --mark $(sudo /usr/bin/wg show "${INTERFACE}" fwmark) -m addrtype ! --dst-type LOCAL -j REJECT
     fi
+
+    sudo /usr/sbin/iptables -A OUTPUT ! -o "${INTERFACE}" -m mark ! --mark $(sudo /usr/bin/wg show "${INTERFACE}" fwmark) -m addrtype ! --dst-type LOCAL -j REJECT
 
     # IPv6 killswitch
     DEFAULTROUTE_IPV6=$(/usr/sbin/ip -6 route | grep default | awk '{print $3}')
@@ -43,6 +43,7 @@ then
             sudo /usr/sbin/ip6tables -A OUTPUT -d "${entry}" -j ACCEPT || echo "[WARNING] Received non-zero exit code adding iptables rule to ACCEPT ${entry}"
         done
 
-        sudo /usr/sbin/ip6tables -A OUTPUT ! -o "${INTERFACE}" -m mark ! --mark $(sudo /usr/bin/wg show "${INTERFACE}" fwmark) -m addrtype ! --dst-type LOCAL -j REJECT
     fi
+
+    sudo /usr/sbin/ip6tables -A OUTPUT ! -o "${INTERFACE}" -m mark ! --mark $(sudo /usr/bin/wg show "${INTERFACE}" fwmark) -m addrtype ! --dst-type LOCAL -j REJECT
 fi
