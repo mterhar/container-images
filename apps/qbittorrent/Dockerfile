@@ -28,8 +28,8 @@ RUN \
     ${EXTRA_INSTALL_ARG} \
   && \
   case "${TARGETPLATFORM}" in \
-    'linux/amd64') export DOWNLOAD_URL=$(curl -sX GET "https://api.github.com/repos/userdocs/qbittorrent-nox-static/releases" | jq -r --arg version "${VERSION}" '.[] | select(.prerelease==false) | select(.tag_name | startswith("release-\($version)")) | .assets | .[] | select(.browser_download_url | endswith("x86_64-qbittorrent-nox")) | .browser_download_url') ;; \
-    'linux/arm64') export DOWNLOAD_URL=$(curl -sX GET "https://api.github.com/repos/userdocs/qbittorrent-nox-static/releases" | jq -r --arg version "${VERSION}" '.[] | select(.prerelease==false) | select(.tag_name | startswith("release-\($version)")) | .assets | .[] | select(.browser_download_url | endswith("aarch64-qbittorrent-nox")) | .browser_download_url') ;; \
+    'linux/amd64') export DOWNLOAD_URL=$(curl -sX GET "https://api.github.com/repos/userdocs/qbittorrent-nox-static/releases" | jq -r --arg version "${VERSION}" '.[] | select(.tag_name | startswith("release-\($version)_v2")) | .assets | .[] | select(.browser_download_url | endswith("x86_64-qbittorrent-nox")) | .browser_download_url') ;; \
+    'linux/arm64') export DOWNLOAD_URL=$(curl -sX GET "https://api.github.com/repos/userdocs/qbittorrent-nox-static/releases" | jq -r --arg version "${VERSION}" '.[] | select(.tag_name | startswith("release-\($version)_v2")) | .assets | .[] | select(.browser_download_url | endswith("aarch64-qbittorrent-nox")) | .browser_download_url') ;; \
   esac \
   && echo $DOWNLOAD_URL \
   && curl -fsSL -o /app/qbittorrent-nox "${DOWNLOAD_URL}" \
