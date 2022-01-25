@@ -28,11 +28,10 @@ RUN \
     ${EXTRA_INSTALL_ARG} \
   && \
   case "${TARGETPLATFORM}" in \
-    'linux/amd64') export DOWNLOAD_URL=$(curl -sX GET "https://api.github.com/repos/userdocs/qbittorrent-nox-static/releases" | jq -r --arg version "${VERSION}" '.[] | select(.tag_name | startswith("release-\($version)_v2")) | .assets | .[] | select(.browser_download_url | endswith("x86_64-qbittorrent-nox")) | .browser_download_url') ;; \
-    'linux/arm64') export DOWNLOAD_URL=$(curl -sX GET "https://api.github.com/repos/userdocs/qbittorrent-nox-static/releases" | jq -r --arg version "${VERSION}" '.[] | select(.tag_name | startswith("release-\($version)_v2")) | .assets | .[] | select(.browser_download_url | endswith("aarch64-qbittorrent-nox")) | .browser_download_url') ;; \
+    'linux/amd64') export ARCH="x86_64" ;; \
+    'linux/arm64') export ARCH="aarch64" ;; \
   esac \
-  && echo $DOWNLOAD_URL \
-  && curl -fsSL -o /app/qbittorrent-nox "${DOWNLOAD_URL}" \
+  && curl -fsSL -o /app/qbittorrent-nox "https://github.com/userdocs/qbittorrent-nox-static/releases/latest/download/${ARCH}-qbittorrent-nox" \
   && chmod +x /app/qbittorrent-nox \
   && \
   apt-get remove -y ${EXTRA_INSTALL_ARG} \
