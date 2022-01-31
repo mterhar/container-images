@@ -1,8 +1,7 @@
 ---
-# # TODO fix this test
-# process:
-#   Plex Media Serv:
-#     running: true
+process:
+  Plex Media Serv:
+    running: true
 
 port:
   tcp6:32400:

@@ -18,10 +18,18 @@ ENV NVIDIA_DRIVER_CAPABILITIES="compute,video,utility" \
 
 # hadolint ignore=DL3008,DL3015,SC2039,SC2086
 RUN \
+  apt-get -qq update \
+  && \
+  apt-get -qq install -y \
+    gnupg2 \
+  && \
   case "${TARGETPLATFORM}" in \
     'linux/amd64') \
+        curl -sL https://repositories.intel.com/graphics/intel-graphics.key | apt-key add - \
+        && echo 'deb [arch=amd64] https://repositories.intel.com/graphics/ubuntu focal main' > /etc/apt/sources.list.d/intel.list \
+        && \
         export ARCH='amd64'; \
-        export EXTRA_INSTALL_ARG='beignet-opencl-icd ocl-icd-libopencl1'; \
+        export EXTRA_INSTALL_ARG='intel-opencl-icd'; \
     ;; \
     'linux/arm64') \
         export ARCH='arm64'; \
@@ -35,28 +43,13 @@ RUN \
   apt-get -qq install -y \
     aria2 \
     jq \
+    intel-opencl-icd \
     unrar \
     unzip \
     uuid-runtime \
     xmlstarlet \
+    ca-certificates \
     ${EXTRA_INSTALL_ARG} \
-  && \
-  case "${ARCH}" in \
-    'amd64') \
-      COMP_RT_RELEASE=$(curl -sX GET "https://api.github.com/repos/intel/compute-runtime/releases/latest" | jq -r '.tag_name') \
-      && COMP_RT_URLS=$(curl -sX GET "https://api.github.com/repos/intel/compute-runtime/releases/tags/${COMP_RT_RELEASE}" | jq -r '.body' | grep wget | sed 's|wget ||g') \
-      && mkdir -p /opencl-intel \
-      && \
-      for i in ${COMP_RT_URLS}; do \
-        i=$(echo ${i} | tr -d '\r'); \
-        echo "**** downloading ${i} ****"; \
-        curl -o "/opencl-intel/$(basename ${i})" \
-          -L "${i}"; \
-      done \
-      && dpkg -i /opencl-intel/*.deb \
-      && rm -rf /opencl-intel \
-    ;; \
-  esac \
   && \
   echo "Using curl or wget to download the plex debian package result in a qemu failure, why? I dunno" \
   && \
@@ -65,7 +58,7 @@ RUN \
   && \
   dpkg -i --force-confold /tmp/plex.deb \
   && \
-  apt-get remove -y aria2 jq \
+  apt-get remove -y aria2 gnupg2 jq \
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && apt-get autoremove -y \
   && apt-get clean \
@@ -77,8 +70,7 @@ RUN \
     /var/tmp/ \
   && chown -R kah:kah "${PLEX_MEDIA_SERVER_HOME}" \
   && chmod -R u=rwX,go=rX "${PLEX_MEDIA_SERVER_HOME}" \
-  && printf "umask %d" "${UMASK}" >> /etc/bash.bashrc \
-  && update-ca-certificates
+  && printf "umask %d" "${UMASK}" >> /etc/bash.bashrc
 
 USER kah
 
