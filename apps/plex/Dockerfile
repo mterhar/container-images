@@ -43,7 +43,6 @@ RUN \
   apt-get -qq install -y \
     aria2 \
     jq \
-    intel-opencl-icd \
     unrar \
     unzip \
     uuid-runtime \
