@@ -31,7 +31,7 @@ RUN \
     'linux/amd64') export ARCH="x86_64" ;; \
     'linux/arm64') export ARCH="aarch64" ;; \
   esac \
-  && curl -fsSL -o /app/qbittorrent-nox "https://github.com/userdocs/qbittorrent-nox-static/releases/latest/download/${ARCH}-qbittorrent-nox" \
+  && curl -fsSL -o /app/qbittorrent-nox "https://github.com/userdocs/qbittorrent-nox-static/releases/latest/download/${ARCH}-cmake-qbittorrent-nox" \
   && chmod +x /app/qbittorrent-nox \
   && \
   apt-get remove -y ${EXTRA_INSTALL_ARG} \
