@@ -19,6 +19,7 @@ RUN \
     bash \
     ca-certificates \
     curl \
+    dnsutils \
     jq \
     tzdata \
   && curl -fsSL -o /usr/local/bin/kubectl "https://dl.k8s.io/release/v${VERSION}/bin/linux/${TARGETARCH}/kubectl" \
