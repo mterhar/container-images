@@ -18,7 +18,7 @@ RUN \
   apt-get -qq install -y \
     php-fpm \
     php-pdo php-gd php-pgsql php-pgsql php-mbstring \
-	  php-intl php-xml php-curl \
+	  php-intl php-xml php-curl php-ldap \
 	  php-dom php-fileinfo php-json php-iconv \
 	  php-zip \
 	  postgresql-client sudo php-xdebug \
@@ -30,6 +30,11 @@ RUN \
     git checkout "master~$NUMBER_COMMITS_TO_REVERT"; \
   fi \
   && git clone https://git.tt-rss.org/fox/ttrss-nginx-xaccel.git /apps/plugins.local/nginx_xaccel \
+  && git clone https://github.com/hydrian/TTRSS-Auth-LDAP.git /root/TTRSS-Auth-LDAP \
+  && cp -r /root/TTRSS-Auth-LDAP/plugins/auth_ldap /apps/plugins.local/ \
+  && rm -rf /root/TTRSS-Auth-LDAP \
+  && git clone https://github.com/HenryQW/mercury_fulltext.git /apps/plugins.local/mercury_fulltext \
+  && ls -la /apps/plugins.local \
   && chown -R www-data:www-data cache feed-icons lock \
   && cp -a config.php-dist config.php \
   && sed -i.bak 's/\(memory_limit =\) 128M/\1 256M/' /etc/php/7.4/fpm/php.ini \
