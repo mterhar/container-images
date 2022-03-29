@@ -1,4 +1,4 @@
-FROM docker.io/golang:1.17.7-alpine as builder
+FROM docker.io/golang:1.18.0-alpine as builder
 
 ARG TARGETPLATFORM
 ARG BUILDPLATFORM
