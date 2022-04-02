@@ -30,7 +30,7 @@ RUN \
     git checkout "master~$NUMBER_COMMITS_TO_REVERT"; \
   fi \
   && git clone https://git.tt-rss.org/fox/ttrss-nginx-xaccel.git plugins.local/nginx_xaccel \
-  && git clone https://github.com/hydrian/TTRSS-Auth-LDAP.git /root/TTRSS-Auth-LDAP \
+  && git clone https://github.com/angelnu/TTRSS-Auth-LDAP.git /root/TTRSS-Auth-LDAP \
   && cp -r /root/TTRSS-Auth-LDAP/plugins/auth_ldap plugins.local/ \
   && rm -rf /root/TTRSS-Auth-LDAP \
   && git clone https://github.com/HenryQW/mercury_fulltext.git plugins.local/mercury_fulltext \
