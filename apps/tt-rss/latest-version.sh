@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-MAYOR_VERSION=1
+MAYOR_VERSION=2
+MINOR_VERSION=0
 CHECKOUT_DIR=/tmp/tt-rss
 
 if [ -d "$CHECKOUT_DIR" ]; then
@@ -13,4 +14,4 @@ fi
 
 number_of_commits=$(git rev-list --count --first-parent HEAD)
 
-printf "%s.%s.0" "${MAYOR_VERSION}" "${number_of_commits}"
+printf "%s.%s.%s" "${MAYOR_VERSION}" "${MINOR_VERSION}" "${number_of_commits}"

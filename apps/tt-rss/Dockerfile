@@ -2,6 +2,7 @@
 FROM ghcr.io/k8s-at-home/ubuntu:latest
 
 ARG VERSION
+ARG VERSION_LDAP_AUTH=3.0.0
 
 # hadolint ignore=DL3002
 USER root
@@ -30,11 +31,8 @@ RUN \
     git checkout "master~$NUMBER_COMMITS_TO_REVERT"; \
   fi \
   && git clone https://git.tt-rss.org/fox/ttrss-nginx-xaccel.git plugins.local/nginx_xaccel \
-  && git clone https://github.com/angelnu/TTRSS-Auth-LDAP.git /root/TTRSS-Auth-LDAP \
-  && cp -r /root/TTRSS-Auth-LDAP/plugins/auth_ldap plugins.local/ \
-  && rm -rf /root/TTRSS-Auth-LDAP \
+  && git clone -b $VERSION_LDAP_AUTH https://github.com/k8s-at-home/TTRSS-Auth-LDAP.git plugins.local/auth_ldap \
   && git clone https://github.com/HenryQW/mercury_fulltext.git plugins.local/mercury_fulltext \
-  && ls -la plugins.local \
   && chown -R www-data:www-data cache feed-icons lock \
   && cp -a config.php-dist config.php \
   && sed -i.bak 's/\(memory_limit =\) 128M/\1 256M/' /etc/php/7.4/fpm/php.ini \
