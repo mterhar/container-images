@@ -2,7 +2,7 @@
 FROM ghcr.io/k8s-at-home/ubuntu:latest
 
 ARG VERSION
-ARG VERSION_LDAP_AUTH 3.0.0
+ARG VERSION_LDAP_AUTH=3.0.0
 
 # hadolint ignore=DL3002
 USER root
