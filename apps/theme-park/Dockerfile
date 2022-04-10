@@ -15,6 +15,10 @@ RUN apt-get update && \
   cp -r /temp/css/ /usr/share/nginx/html/ && \
   cp -r /temp/resources/ /usr/share/nginx/html/ && \
   cp /temp/index.html /usr/share/nginx/html/ && \
+  apt-get remove -y python3 && \
+  apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false && \
+  apt-get autoremove -y && \
+  apt-get clean && \
   rm -r temp && \
   chown -R nginx:nginx /usr/share/nginx/html/
 
