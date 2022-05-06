@@ -1,8 +1,15 @@
 #!/usr/bin/env python3
+import argparse
+
 from configparser import ConfigParser
 from os import environ as env
 
-CONFIG_FILE = '/config/qBittorrent/qBittorrent.conf'
+parser = argparse.ArgumentParser()
+required = parser.add_argument_group('required arguments')
+required.add_argument('-o','--output', help='Configuration file name', required=True)
+args = parser.parse_args()
+
+CONFIG_FILE = args.output
 
 c = ConfigParser()
 c.optionxform = str

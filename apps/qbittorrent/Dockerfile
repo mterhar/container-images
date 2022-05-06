@@ -9,6 +9,7 @@ ARG VERSION
 ENV HOME=/config \
     XDG_CONFIG_HOME=/config \
     XDG_DATA_HOME=/config \
+    BITTORRENT_PORT=6881 \
     WEBUI_PORT=8080
 
 USER root
@@ -50,9 +51,8 @@ RUN \
 
 USER kah
 
-EXPOSE 6881 6881/udp ${WEBUI_PORT}
+EXPOSE ${BITTORRENT_PORT} ${BITTORRENT_PORT}/udp ${WEBUI_PORT}
 
-COPY ./apps/qbittorrent/qBittorrent.conf /app/qBittorrent.conf
 COPY ./apps/qbittorrent/shim/config.py /shim/config.py
 COPY ./apps/qbittorrent/entrypoint.sh /entrypoint.sh
 
