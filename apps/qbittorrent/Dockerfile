@@ -5,11 +5,7 @@ ARG TARGETPLATFORM
 ARG BUILDPLATFORM
 ARG VERSION
 
-# Proper way to set config directory
-ENV HOME=/config \
-    XDG_CONFIG_HOME=/config \
-    XDG_DATA_HOME=/config \
-    BITTORRENT_PORT=6881 \
+ENV BITTORRENT_PORT=6881 \
     WEBUI_PORT=8080
 
 USER root
@@ -46,6 +42,8 @@ RUN \
     /var/tmp/ \
   && chown -R kah:kah /app \
   && chmod -R u=rwX,go=rX /app \
+  && chown -R kah:kah /config \
+  && chmod -R u=rwX,go=rX /config \
   && printf "umask %d" "${UMASK}" >> /etc/bash.bashrc \
   && update-ca-certificates
 
