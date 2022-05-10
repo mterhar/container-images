@@ -13,8 +13,8 @@ if [[ -z "$USE_PROFILE" ]]; then
     export HOME="$configFolder"
     export XDG_CONFIG_HOME="$configFolder"
     export XDG_DATA_HOME="$configFolder"
-    qbtConfigFile="/$configFolder/qBittorrent/qBittorrent.conf"
-    qbtLogFile="/$configFolder/qBittorrent/logs/qbittorrent.log"
+    qbtConfigFile="$configFolder/qBittorrent/qBittorrent.conf"
+    qbtLogFile="$configFolder/qBittorrent/logs/qbittorrent.log"
     PROFILE_ARGS=""
 else
     profilePath="/config"
