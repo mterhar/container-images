@@ -22,7 +22,7 @@ RUN \
   esac \
   && \
   curl -fsSL -o /tmp/app.zip \
-    "https://github.com/rcdailey/trash-updater/releases/download/v${VERSION}/trash-linux-${ARCH}.zip" \
+    "https://github.com/recyclarr/recyclarr/releases/download/v${VERSION}/recyclarr-linux-${ARCH}.zip" \
   && unzip -q /tmp/app.zip -d /app \
   && apt-get remove -y unzip \
   && apt-get purge -y --autoremove -o APT::AutoRemove::RecommendsImportant=false \
@@ -37,10 +37,10 @@ RUN \
 
 USER kah
 
-CMD ["/app/trash"]
+CMD ["/app/recyclarr"]
 
 LABEL \
-  org.opencontainers.image.authors="Sean O'Brien <sean@obrienfamily.org>" \
-  org.opencontainers.image.title="Trash Updater" \
-  org.opencontainers.image.source="https://github.com/rcdailey/trash-updater" \
+  org.opencontainers.image.authors="Robert Dailey" \
+  org.opencontainers.image.title="Recyclarr" \
+  org.opencontainers.image.source="https://github.com/recyclarr/recyclarr" \
   org.opencontainers.image.version="${VERSION}"

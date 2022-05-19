@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Get the version using jq from the json response.
-version=$(curl -sX GET https://api.github.com/repos/rcdailey/trash-updater/releases/latest | jq --raw-output '.name')
+version=$(curl -sX GET https://api.github.com/repos/recyclarr/recyclarr/releases/latest | jq --raw-output '.name')
 # Strip the v from the beginning of version if it exists.
 version="${version#*v}"
 

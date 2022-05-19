@@ -33,8 +33,9 @@ jobs:
         list-files: json
         filters: |
           changed:
-          - 'apps/**'
-          - 'base/**'
+            - added|modified:
+              - 'apps/**'
+              - 'base/**'
     - run: echo '${{ toJson(steps.filter.outputs) }}' > changes.json
     - id: reduce
       run: |
