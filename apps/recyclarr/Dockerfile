@@ -8,7 +8,8 @@ ARG VERSION
 USER root
 
 ENV \
-  DOTNET_BUNDLE_EXTRACT_BASE_DIR=/tmp
+  DOTNET_BUNDLE_EXTRACT_BASE_DIR=/tmp \
+  XDG_CONFIG_HOME=/config
 
 RUN \
   apt-get -qq update \
