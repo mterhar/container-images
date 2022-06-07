@@ -23,7 +23,6 @@ RUN \
   && export GOARM \
   && GOARM=$(echo ${TARGETPLATFORM} | cut -d / -f3 | cut -c2-) \
   && apk --no-cache --no-progress add ca-certificates git libcap \
-  && update-ca-certificates \
   && git clone https://github.com/coredns/coredns.git --branch "v${VERSION}" --depth 1 --single-branch .
 
 # Enable plugins
