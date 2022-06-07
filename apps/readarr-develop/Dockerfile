@@ -45,7 +45,7 @@ USER kah
 
 EXPOSE 8787
 
-COPY ./apps/readarr/entrypoint.sh /entrypoint.sh
+COPY ./apps/readarr-develop/entrypoint.sh /entrypoint.sh
 CMD ["/entrypoint.sh"]
 
 LABEL \

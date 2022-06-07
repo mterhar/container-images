@@ -56,7 +56,7 @@ USER kah
 
 EXPOSE 8989
 
-COPY ./apps/sonarr/entrypoint.sh /entrypoint.sh
+COPY ./apps/sonarr-develop/entrypoint.sh /entrypoint.sh
 CMD ["/entrypoint.sh"]
 
 LABEL \

@@ -86,8 +86,7 @@ RUN \
   && chown -R kah:kah /web \
   && chmod -R u=rwX,go=rX /app \
   && chmod -R u=rwX,go=rX /web \
-  && printf "umask %d" "${UMASK}" >> /etc/bash.bashrc \
-  && update-ca-certificates
+  && printf "umask %d" "${UMASK}" >> /etc/bash.bashrc
 
 USER kah
 

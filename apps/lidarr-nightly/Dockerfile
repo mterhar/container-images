@@ -40,14 +40,13 @@ RUN \
     /var/tmp/ \
   && chown -R kah:kah /app \
   && chmod -R u=rwX,go=rX /app \
-  && printf "umask %d" "${UMASK}" >> /etc/bash.bashrc \
-  && update-ca-certificates
+  && printf "umask %d" "${UMASK}" >> /etc/bash.bashrc
 
 USER kah
 
 EXPOSE 8686
 
-COPY ./apps/lidarr/entrypoint.sh /entrypoint.sh
+COPY ./apps/lidarr-nightly/entrypoint.sh /entrypoint.sh
 CMD ["/entrypoint.sh"]
 
 LABEL \

@@ -115,8 +115,7 @@ RUN \
     /var/tmp/ \
   && chown -R kah:kah /app \
   && chmod -R u=rwX,go=rX "${APP_DIR}" \
-  && printf "umask %d" "${UMASK}" >> /etc/bash.bashrc \
-  && update-ca-certificates
+  && printf "umask %d" "${UMASK}" >> /etc/bash.bashrc
 
 COPY --from=builder /app /app
 

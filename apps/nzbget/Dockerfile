@@ -43,8 +43,7 @@ RUN \
   && curl -fsSl -o /app/cacert.pem -L "https://curl.haxx.se/ca/cacert.pem" \
   && chown -R kah:kah /app \
   && chmod -R u=rwX,go=rX /app \
-  && printf "umask %d" "${UMASK}" >> /etc/bash.bashrc \
-  && update-ca-certificates
+  && printf "umask %d" "${UMASK}" >> /etc/bash.bashrc
 
 USER kah
 

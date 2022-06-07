@@ -44,8 +44,7 @@ RUN \
   && chmod -R u=rwX,go=rX /app \
   && chown -R kah:kah /config \
   && chmod -R u=rwX,go=rX /config \
-  && printf "umask %d" "${UMASK}" >> /etc/bash.bashrc \
-  && update-ca-certificates
+  && printf "umask %d" "${UMASK}" >> /etc/bash.bashrc
 
 USER kah
 
