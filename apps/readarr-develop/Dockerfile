@@ -12,6 +12,7 @@ RUN \
   apt-get -qq update \
   && \
   apt-get -qq install -y \
+    libchromaprint-tools \
     libicu66 \
     sqlite3 \
   && \
@@ -20,14 +21,14 @@ RUN \
     'linux/arm64') export ARCH='arm64' ;; \
   esac \
   && \
-  curl -fsSL -o /tmp/prowlarr.tar.gz \
-    "https://prowlarr.servarr.com/v1/update/nightly/updatefile?version=${VERSION}&os=linux&runtime=netcore&arch=${ARCH}" \
-  && tar ixzf /tmp/prowlarr.tar.gz -C /app --strip-components 1 \
+  curl -fsSL -o /tmp/readarr.tar.gz \
+    "https://readarr.servarr.com/v1/update/develop/updatefile?version=${VERSION}&os=linux&runtime=netcore&arch=${ARCH}" \
+  && tar ixzf /tmp/readarr.tar.gz -C /app --strip-components 1 \
   && \
   rm -rf \
-    /app/prowlarr.Update* \
+    /app/readarr.Update* \
   && \
-  printf "UpdateMethod=docker\nBranch=nightly\nPackageVersion=%s\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" "${VERSION}" > /app/package_info \
+  printf "UpdateMethod=docker\nBranch=develop\nPackageVersion=%s\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" "${VERSION}" > /app/package_info \
   && \
   apt-get autoremove -y \
   && apt-get clean \
@@ -43,12 +44,12 @@ RUN \
 
 USER kah
 
-EXPOSE 9696
+EXPOSE 8787
 
-COPY ./apps/prowlarr/entrypoint.sh /entrypoint.sh
+COPY ./apps/readarr/entrypoint.sh /entrypoint.sh
 CMD ["/entrypoint.sh"]
 
 LABEL \
-  org.opencontainers.image.title="Prowlarr" \
-  org.opencontainers.image.source="https://github.com/Prowlarr/Prowlarr" \
+  org.opencontainers.image.title="Readarr" \
+  org.opencontainers.image.source="https://github.com/Readarr/Readarr" \
   org.opencontainers.image.version="${VERSION}"
