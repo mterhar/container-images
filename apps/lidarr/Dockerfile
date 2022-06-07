@@ -29,7 +29,7 @@ RUN \
   rm -rf \
     /app/lidarr.Update* \
   && \
-  printf "UpdateMethod=docker\nBranch=nightly\nPackageVersion=%s\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" "${VERSION}" > /app/package_info \
+  printf "UpdateMethod=docker\nBranch=master\nPackageVersion=%s\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" "${VERSION}" > /app/package_info \
   && \
   apt-get autoremove -y \
   && apt-get clean \
