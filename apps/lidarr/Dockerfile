@@ -23,7 +23,7 @@ RUN \
   esac \
   && \
   curl -fsSL -o /tmp/lidarr.tar.gz \
-    "https://lidarr.servarr.com/v1/update/nightly/updatefile?version=${VERSION}&os=linux&runtime=netcore&arch=${ARCH}" \
+    "https://lidarr.servarr.com/v1/update/master/updatefile?version=${VERSION}&os=linux&runtime=netcore&arch=${ARCH}" \
   && tar ixzf /tmp/lidarr.tar.gz -C /app --strip-components 1 \
   && \
   rm -rf \
