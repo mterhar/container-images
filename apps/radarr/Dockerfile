@@ -14,6 +14,7 @@ RUN \
   apt-get -qq install -y \
     libicu66 \
     libmediainfo0v5 \
+    xmlstarlet \
   && \
   case "${TARGETPLATFORM}" in \
     'linux/amd64') export ARCH='x64' ;; \
