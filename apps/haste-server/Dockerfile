@@ -1,4 +1,5 @@
-FROM ghcr.io/k8s-at-home/ubuntu-focal:latest@sha256:bde16452d4d697b12405a948fd1f3f9954aeb3c84808fd84700768dc24d88282 as builder
+FROM ghcr.io/k8s-at-home/ubuntu-focal:rolling@sha256:bde16452d4d697b12405a948fd1f3f9954aeb3c84808fd84700768dc24d88282 as builder
+
 ARG VERSION
 WORKDIR /tmp
 ARG FILENAME="${VERSION}.tar.gz"
@@ -30,7 +31,7 @@ RUN \
   npm install aws-sdk@2.738.0 && \
   npm install rethinkdbdash@2.3.31
 
-FROM ghcr.io/k8s-at-home/ubuntu-focal:latest@sha256:bde16452d4d697b12405a948fd1f3f9954aeb3c84808fd84700768dc24d88282
+FROM ghcr.io/k8s-at-home/ubuntu-focal:rolling@sha256:bde16452d4d697b12405a948fd1f3f9954aeb3c84808fd84700768dc24d88282
 
 ARG VERSION
 ENV NODE_ENV=production

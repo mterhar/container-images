@@ -1,4 +1,3 @@
-# hadolint ignore=DL3007
 FROM google/dart:latest
 
 WORKDIR /app
@@ -7,6 +6,6 @@ WORKDIR /app
 RUN \
   git clone https://github.com/mitsumaui/leaf2mqtt.git . \
   && pub get \
-  && pub get --offline 
+  && pub get --offline
 
 ENTRYPOINT ["/usr/bin/dart", "src/leaf_2_mqtt.dart"]

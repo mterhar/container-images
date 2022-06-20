@@ -1,4 +1,3 @@
-# hadolint ignore=DL3007
 FROM docker.io/library/alpine:3.16.0
 USER root
 ARG TARGETARCH
