@@ -9,7 +9,6 @@ These are just examples; it could also be something much better.
 
 * Repository: https://github.com/k8s-at-home/container-images
 * Docs: https://docs.k8s-at-home.com
-* This container uses the micro CLI text editor
 * Bugs or feature requests should be opened in an GH issue
 * Questions should be discussed in Discord or GH discussions
 "
