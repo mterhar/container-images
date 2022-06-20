@@ -1,4 +1,4 @@
-FROM ghcr.io/k8s-at-home/ubuntu:vfocal-20210723
+FROM ghcr.io/k8s-at-home/ubuntu-focal:latest@sha256:595c46c6718b29f653d29c510bbba91caf4d678258c966caa26048292e478391
 
 ### Based on https://github.com/linuxserver/docker-wikijs
 # Give ourselves root for a bit

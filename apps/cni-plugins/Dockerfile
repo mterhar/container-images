@@ -1,5 +1,5 @@
 # hadolint ignore=DL3007
-FROM ghcr.io/k8s-at-home/alpine:latest
+FROM docker.io/library/alpine:3.16.0
 USER root
 ARG TARGETARCH
 ARG VERSION

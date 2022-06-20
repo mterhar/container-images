@@ -1,5 +1,4 @@
-# hadolint ignore=DL3007
-FROM ghcr.io/k8s-at-home/ubuntu:latest
+FROM ghcr.io/k8s-at-home/ubuntu-focal:latest@sha256:595c46c6718b29f653d29c510bbba91caf4d678258c966caa26048292e478391
 
 ARG VERSION
 ARG VERSION_LDAP_AUTH=3.0.0

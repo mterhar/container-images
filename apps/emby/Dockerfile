@@ -1,4 +1,4 @@
-FROM ghcr.io/k8s-at-home/ubuntu:latest as builder
+FROM ghcr.io/k8s-at-home/ubuntu-focal:latest@sha256:595c46c6718b29f653d29c510bbba91caf4d678258c966caa26048292e478391 as builder
 
 ARG TARGETPLATFORM
 ARG BUILDPLATFORM
@@ -47,7 +47,7 @@ RUN \
     /tmp/opt/emby-server/etc \
     /tmp/opt/emby-server/extra/lib/*
 
-FROM ghcr.io/k8s-at-home/ubuntu:latest
+FROM ghcr.io/k8s-at-home/ubuntu-focal:latest@sha256:595c46c6718b29f653d29c510bbba91caf4d678258c966caa26048292e478391
 
 ARG TARGETPLATFORM
 ARG BUILDPLATFORM

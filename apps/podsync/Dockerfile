@@ -25,9 +25,7 @@ RUN \
   && go build -o /bin/podsync ./cmd/podsync
 
 
-# hadolint ignore=DL3007
-FROM ghcr.io/k8s-at-home/ubuntu:latest
-
+FROM ghcr.io/k8s-at-home/ubuntu-focal:latest@sha256:595c46c6718b29f653d29c510bbba91caf4d678258c966caa26048292e478391
 
 # hadolint ignore=DL3002
 USER root

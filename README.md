@@ -11,7 +11,7 @@ Images are hosted on Github Container Registry [here](https://github.com/orgs/k8
 
 The goal of this project is to support [semantic versioned](https://semver.org/), rootless, and multiple architecture containers for various applications.
 
-We try to keep a [KISS principle](https://en.wikipedia.org/wiki/KISS_principle) when building these images, which means no [s6-overlay](https://github.com/just-containers/s6-overlay) and all images are built on top of [ubuntu:focal](https://hub.docker.com/_/ubuntu).
+We try to keep a [KISS principle](https://en.wikipedia.org/wiki/KISS_principle) when building these images, which means no [s6-overlay](https://github.com/just-containers/s6-overlay) and all images are built on top of [ubuntu](https://hub.docker.com/_/ubuntu).
 
 ## Configuration
 

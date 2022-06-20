@@ -1,5 +1,4 @@
-# hadolint ignore=DL3007
-FROM ghcr.io/k8s-at-home/ubuntu:latest AS builder
+FROM ghcr.io/k8s-at-home/ubuntu-focal:latest@sha256:595c46c6718b29f653d29c510bbba91caf4d678258c966caa26048292e478391 as builder
 ARG VERSION
 WORKDIR /tmp
 ARG FILENAME="${VERSION}.tar.gz"
@@ -31,8 +30,8 @@ RUN \
   npm install aws-sdk@2.738.0 && \
   npm install rethinkdbdash@2.3.31
 
-# hadolint ignore=DL3007
-FROM ghcr.io/k8s-at-home/ubuntu:latest
+FROM ghcr.io/k8s-at-home/ubuntu-focal:latest@sha256:595c46c6718b29f653d29c510bbba91caf4d678258c966caa26048292e478391
+
 ARG VERSION
 ENV NODE_ENV=production
 ENV APP_DIR="/app"
