@@ -1,9 +1,8 @@
-FROM ghcr.io/k8s-at-home/ubuntu-focal:rolling@sha256:bde16452d4d697b12405a948fd1f3f9954aeb3c84808fd84700768dc24d88282
+FROM ghcr.io/k8s-at-home/ubuntu-jammy:rolling@sha256:52f4d9e09120d604aa3815ce2a4771e67d9b48e2451d780af05514c4b087baf5
 
 ARG TARGETPLATFORM
 ARG BUILDPLATFORM
 ARG VERSION
-
 USER root
 
 # hadolint ignore=DL3008,DL3015,SC2086
@@ -11,9 +10,10 @@ RUN \
   apt-get -qq update \
   && \
   apt-get -qq install -y \
+    ca-certificates \
     libchromaprint-tools \
-    libicu66 \
-    sqlite3 \
+    libicu70 \
+    libsqlite3-0 \
     xmlstarlet \
   && \
   case "${TARGETPLATFORM}" in \

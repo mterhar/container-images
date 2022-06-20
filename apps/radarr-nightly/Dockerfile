@@ -5,13 +5,13 @@ ARG BUILDPLATFORM
 ARG VERSION
 USER root
 
-ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=true
-
 # hadolint ignore=DL3008,DL3015
 RUN \
   apt-get -qq update \
   && \
   apt-get -qq install -y \
+    ca-certificates \
+    libicu70 \
     libsqlite3-0 \
     xmlstarlet \
   && \
