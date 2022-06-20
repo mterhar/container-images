@@ -14,7 +14,6 @@ RUN \
     libicu66 \
     libmediainfo0v5 \
     xmlstarlet \
-    jq \
   && \
   case "${TARGETPLATFORM}" in \
     'linux/amd64') export ARCH='x64' ;; \

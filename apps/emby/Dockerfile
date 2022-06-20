@@ -25,7 +25,6 @@ RUN \
   && \
   apt-get install -y \
     cpio \
-    jq \
     rpm2cpio \
   && \
   echo "**** install emby ****" \
@@ -62,7 +61,7 @@ RUN \
       export EXTRA_INSTALL_ARG='mesa-va-drivers'; \
     ;; \
     'linux/arm64') \
-      curl -s https://keyserver.ubuntu.com/pks/lookup?op=get\&search=0x6587ffd6536b8826e88a62547876ae518cbcf2f2 | apt-key add - \
+      curl -s "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x6587ffd6536b8826e88a62547876ae518cbcf2f2" | apt-key add - \
       && echo "deb http://ppa.launchpad.net/ubuntu-raspi2/ppa-nightly/ubuntu focal main">> /etc/apt/sources.list.d/raspbins.list \
       && \
       export EXTRA_INSTALL_ARG='libomxil-bellagio0 libomxil-bellagio-bin libraspberrypi0'; \

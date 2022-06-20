@@ -6,7 +6,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # hadolint ignore=DL3008,DL3013,DL3015,SC2086
 RUN \
-  export EXTRA_INSTALL_ARG="build-essential libxml2-dev jq libxslt1-dev python3-dev python3-pip"; \
+  export EXTRA_INSTALL_ARG="build-essential libxml2-dev libxslt1-dev python3-dev python3-pip"; \
   apt-get -qq update \
   && \
   apt-get -qq install -y \

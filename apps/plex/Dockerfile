@@ -41,7 +41,6 @@ RUN \
   && \
   apt-get -qq install -y \
     aria2 \
-    jq \
     unrar \
     unzip \
     uuid-runtime \
@@ -56,7 +55,7 @@ RUN \
   && \
   dpkg -i --force-confold /tmp/plex.deb \
   && \
-  apt-get remove -y aria2 gnupg2 jq \
+  apt-get remove -y aria2 gnupg2 \
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && apt-get autoremove -y \
   && apt-get clean \

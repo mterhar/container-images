@@ -14,7 +14,6 @@ RUN \
     libicu66 \
     sqlite3 \
     xmlstarlet \
-    jq \
   && \
   case "${TARGETPLATFORM}" in \
     'linux/amd64') export ARCH='x64' ;; \

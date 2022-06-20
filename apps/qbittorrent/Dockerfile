@@ -16,7 +16,6 @@ RUN \
   && \
   apt-get install -y \
     geoip-bin \
-    jq \
     p7zip-full \
     python3 \
     unrar \

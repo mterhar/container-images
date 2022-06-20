@@ -19,7 +19,6 @@ RUN \
     ca-certificates-mono \
     libmediainfo0v5 \
     xmlstarlet \
-    jq \
   && \
   curl -fsSL -o /tmp/sonarr.tar.gz \
     "https://download.sonarr.tv/v3/main/${VERSION}/Sonarr.main.${VERSION}.linux.tar.gz" \
