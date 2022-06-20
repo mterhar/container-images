@@ -1,4 +1,3 @@
-# hadolint ignore=DL3007
 FROM ghcr.io/k8s-at-home/ubuntu:latest as builder
 
 ARG TARGETPLATFORM
@@ -52,27 +51,29 @@ RUN \
 FROM ghcr.io/k8s-at-home/ubuntu:latest
 
 ARG TARGETPLATFORM
+ARG BUILDPLATFORM
 ARG VERSION
 
 USER root
-
 ENV NVIDIA_DRIVER_CAPABILITIES="compute,video,utility"
 
 RUN \
   case "${TARGETPLATFORM}" in \
     'linux/amd64') \
-      export EXTRA_PACKAGES='mesa-va-drivers'; \
+      export EXTRA_INSTALL_ARG='mesa-va-drivers'; \
     ;; \
     'linux/arm64') \
-      export EXTRA_PACKAGES='libomxil-bellagio0 libomxil-bellagio-bin libraspberrypi0'; \
-      curl -s https://keyserver.ubuntu.com/pks/lookup?op=get\&search=0x6587ffd6536b8826e88a62547876ae518cbcf2f2 | apt-key add -; \
-      echo "deb http://ppa.launchpad.net/ubuntu-raspi2/ppa-nightly/ubuntu focal main">> /etc/apt/sources.list.d/raspbins.list; \
+      curl -s https://keyserver.ubuntu.com/pks/lookup?op=get\&search=0x6587ffd6536b8826e88a62547876ae518cbcf2f2 | apt-key add - \
+      && echo "deb http://ppa.launchpad.net/ubuntu-raspi2/ppa-nightly/ubuntu focal main">> /etc/apt/sources.list.d/raspbins.list \
+      && \
+      export EXTRA_INSTALL_ARG='libomxil-bellagio0 libomxil-bellagio-bin libraspberrypi0'; \
+      unset NVIDIA_DRIVER_CAPABILITIES; \
     ;; \
   esac \
   && \
   apt-get update && \
   apt-get install -y --no-install-recommends \
-    ${EXTRA_PACKAGES} \
+    ${EXTRA_INSTALL_ARG} \
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && apt-get autoremove -y \
   && apt-get clean \
@@ -86,7 +87,6 @@ RUN \
   && printf "umask %d" "${UMASK}" >> /etc/bash.bashrc
 
 COPY --from=builder /app/emby /app/emby
-
 USER kah
 
 EXPOSE 8096 8920
