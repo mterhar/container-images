@@ -44,6 +44,7 @@ USER kah
 
 EXPOSE 9696
 
+COPY ./apps/prowlarr-develop/config.xml.tmpl /app/config.xml.tmpl
 COPY ./apps/prowlarr-develop/entrypoint.sh /entrypoint.sh
 CMD ["/entrypoint.sh"]
 

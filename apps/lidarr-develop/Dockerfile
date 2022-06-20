@@ -46,6 +46,7 @@ USER kah
 
 EXPOSE 8686
 
+COPY ./apps/lidarr-develop/config.xml.tmpl /app/config.xml.tmpl
 COPY ./apps/lidarr-develop/entrypoint.sh /entrypoint.sh
 CMD ["/entrypoint.sh"]
 
