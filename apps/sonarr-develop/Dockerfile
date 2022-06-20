@@ -1,17 +1,15 @@
-FROM ghcr.io/k8s-at-home/ubuntu-focal:rolling@sha256:bde16452d4d697b12405a948fd1f3f9954aeb3c84808fd84700768dc24d88282
+FROM ghcr.io/k8s-at-home/ubuntu-jammy:rolling@sha256:52f4d9e09120d604aa3815ce2a4771e67d9b48e2451d780af05514c4b087baf5
 
 ARG VERSION
 USER root
-SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+ENV \
+  SONARR__INSTANCE_NAME="Sonarr" \
+  SONARR__BRANCH="develop" \
+  SONARR__PORT="8989"
 
 # hadolint ignore=DL3008,DL3015,SC2086
 RUN \
-  curl -L \
-    "https://mediaarea.net/repo/deb/repo-mediaarea_1.0-12_all.deb" \
-    -o /tmp/key.deb \
-  && dpkg -i /tmp/key.deb \
-  && echo "deb https://mediaarea.net/repo/deb/ubuntu focal main" | tee /etc/apt/sources.list.d/mediaarea.list \
-  && \
   apt-get -qq update \
   && apt-get -qq install -y gnupg \
 	&& \
@@ -27,13 +25,13 @@ RUN \
     xmlstarlet \
   && \
   curl -fsSL -o /tmp/sonarr.tar.gz \
-    "https://download.sonarr.tv/v3/develop/${VERSION}/Sonarr.develop.${VERSION}.linux.tar.gz" \
+    "https://download.sonarr.tv/v3/${SONARR__BRANCH}/${VERSION}/Sonarr.${SONARR__BRANCH}.${VERSION}.linux.tar.gz" \
   && tar ixzf /tmp/sonarr.tar.gz -C /app --strip-components 1 \
   && \
   rm -rf \
     /app/Sonarr.Update* \
   && \
-  printf "UpdateMethod=docker\nBranch=develop\nPackageVersion=%s\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" "${VERSION}" > /app/package_info \
+  printf "UpdateMethod=docker\nBranch=%s\nPackageVersion=%s\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" "${SONARR__BRANCH}" "${VERSION}" > /app/package_info \
   && \
   gpgconf --kill all \
   && apt-get remove -y gnupg \
@@ -52,12 +50,12 @@ RUN \
 
 USER kah
 
-EXPOSE 8989
+EXPOSE ${SONARR__PORT}/tcp
 
-COPY ./apps/sonarr-develop/entrypoint.sh /entrypoint.sh
+COPY ./apps/sonarr-${SONARR__BRANCH}/entrypoint.sh /entrypoint.sh
 CMD ["/entrypoint.sh"]
 
 LABEL \
-  org.opencontainers.image.title="Sonarr" \
+  org.opencontainers.image.title="${SONARR__INSTANCE_NAME}" \
   org.opencontainers.image.source="https://github.com/Sonarr/Sonarr" \
   org.opencontainers.image.version="${VERSION}"

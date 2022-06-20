@@ -5,6 +5,11 @@ ARG BUILDPLATFORM
 ARG VERSION
 USER root
 
+ENV \
+  SONARR__INSTANCE_NAME="Sonarr" \
+  SONARR__BRANCH="widowmaker" \
+  SONARR__PORT="8989"
+
 # hadolint ignore=DL3008,DL3015,SC2086
 RUN \
   apt-get -qq update \
@@ -21,13 +26,13 @@ RUN \
   esac \
   && \
   curl -fsSL -o /tmp/sonarr.tar.gz \
-    "https://sonarr.servarr.com/v1/update/widowmaker/updatefile?version=${VERSION}&os=linux&runtime=netcore&arch=${ARCH}" \
+    "https://sonarr.servarr.com/v1/update/${SONARR__BRANCH}/updatefile?version=${VERSION}&os=linux&runtime=netcore&arch=${ARCH}" \
   && tar ixzf /tmp/sonarr.tar.gz -C /app --strip-components 1 \
   && \
   rm -rf \
     /app/Sonarr.Update* \
   && \
-  printf "UpdateMethod=docker\nBranch=nightly\nPackageVersion=%s\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" "${VERSION}" > /app/package_info \
+  printf "UpdateMethod=docker\nBranch=%s\nPackageVersion=%s\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" "${SONARR__BRANCH}" "${VERSION}" > /app/package_info \
   && \
   apt-get autoremove -y \
   && apt-get clean \
@@ -42,12 +47,12 @@ RUN \
 
 USER kah
 
-EXPOSE 7878
+EXPOSE ${SONARR__PORT}/tcp
 
 COPY ./apps/sonarr-nightly/entrypoint.sh /entrypoint.sh
 CMD ["/entrypoint.sh"]
 
 LABEL \
-  org.opencontainers.image.title="Sonarr" \
-  org.opencontainers.image.source="https://github.com/Radarr/Radarr" \
+  org.opencontainers.image.title="${SONARR__INSTANCE_NAME}" \
+  org.opencontainers.image.source="https://github.com/Sonarr/Sonarr" \
   org.opencontainers.image.version="${VERSION}"
