@@ -1,4 +1,4 @@
-FROM ghcr.io/k8s-at-home/ubuntu-focal:rolling@sha256:bde16452d4d697b12405a948fd1f3f9954aeb3c84808fd84700768dc24d88282
+FROM ghcr.io/k8s-at-home/ubuntu-jammy:rolling@sha256:52f4d9e09120d604aa3815ce2a4771e67d9b48e2451d780af05514c4b087baf5
 
 ARG VERSION
 USER root
@@ -25,8 +25,20 @@ RUN \
   && \
   pip3 install --no-cache-dir -U -r /app/requirements.txt \
   && \
-  pip3 install --no-cache-dir -U \
-    apprise \
+  NZBNOTIFY_VERSION=$(curl -fsSL "https://api.github.com/repos/caronc/nzb-notify/releases/latest" | jq --raw-output '.tag_name') \
+  && \
+  mkdir -p /app/nzbnotify \
+  && \
+  curl -fsSL -o /tmp/nzbnotify.tar.gz \
+    "https://api.github.com/repos/caronc/nzb-notify/tarball/${NZBNOTIFY_VERSION}" \
+  && \
+  tar xf \
+    /tmp/nzbnotify.tar.gz -C \
+    /app/nzbnotify --strip-components=1\
+  && \
+  cd /app/nzbnotify \
+  && \
+  pip3 install --no-cache-dir -U -r requirements.txt \
   && apt-get remove -y ${EXTRA_INSTALL_ARG} \
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && apt-get autoremove -y \
