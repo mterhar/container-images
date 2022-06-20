@@ -8,7 +8,7 @@ RUN \
   apt-get -qq update \
   && apt-get -qq install -y --no-install-recommends \
     python3-pip \
-  && pip3 install getmail6=="${VERSION}" \
+  && pip3 install --no-cache-dir getmail6=="${VERSION}" \
   && apt-get clean \
   && rm -rf \
     /tmp/* \
