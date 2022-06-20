@@ -1,4 +1,4 @@
-FROM ghcr.io/k8s-at-home/ubuntu-focal:latest@sha256:595c46c6718b29f653d29c510bbba91caf4d678258c966caa26048292e478391
+FROM ghcr.io/k8s-at-home/ubuntu-focal:latest@sha256:bde16452d4d697b12405a948fd1f3f9954aeb3c84808fd84700768dc24d88282
 
 USER root
 
