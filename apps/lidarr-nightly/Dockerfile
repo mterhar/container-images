@@ -5,6 +5,11 @@ ARG BUILDPLATFORM
 ARG VERSION
 USER root
 
+ENV \
+  LIDARR__INSTANCE_NAME="Lidarr" \
+  LIDARR__BRANCH="nightly" \
+  LIDARR__PORT="8686"
+
 # hadolint ignore=DL3008,DL3015,SC2086
 RUN \
   apt-get -qq update \
@@ -19,17 +24,16 @@ RUN \
   case "${TARGETPLATFORM}" in \
     'linux/amd64') export ARCH='x64' ;; \
     'linux/arm64') export ARCH='arm64' ;; \
-    'linux/arm/v7') export ARCH='arm' ;; \
   esac \
   && \
   curl -fsSL -o /tmp/lidarr.tar.gz \
-    "https://lidarr.servarr.com/v1/update/nightly/updatefile?version=${VERSION}&os=linux&runtime=netcore&arch=${ARCH}" \
+    "https://lidarr.servarr.com/v1/update/${LIDARR__BRANCH}/updatefile?version=${VERSION}&os=linux&runtime=netcore&arch=${ARCH}" \
   && tar ixzf /tmp/lidarr.tar.gz -C /app --strip-components 1 \
   && \
   rm -rf \
     /app/lidarr.Update* \
   && \
-  printf "UpdateMethod=docker\nBranch=nightly\nPackageVersion=%s\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" "${VERSION}" > /app/package_info \
+  printf "UpdateMethod=docker\nBranch=%s\nPackageVersion=%s\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" "${LIDARR__BRANCH}" "${VERSION}" > /app/package_info \
   && \
   apt-get autoremove -y \
   && apt-get clean \
@@ -44,13 +48,13 @@ RUN \
 
 USER kah
 
-EXPOSE 8686
+EXPOSE ${LIDARR__PORT}/tcp
 
-COPY ./apps/lidarr-nightly/config.xml.tmpl /app/config.xml.tmpl
-COPY ./apps/lidarr-nightly/entrypoint.sh /entrypoint.sh
+COPY ./apps/lidarr-${LIDARR__BRANCH}/config.xml.tmpl /app/config.xml.tmpl
+COPY ./apps/lidarr-${LIDARR__BRANCH}/entrypoint.sh /entrypoint.sh
 CMD ["/entrypoint.sh"]
 
 LABEL \
-  org.opencontainers.image.title="Lidarr" \
+  org.opencontainers.image.title="${LIDARR__INSTANCE_NAME} - ${LIDARR__BRANCH}" \
   org.opencontainers.image.source="https://github.com/Lidarr/Lidarr" \
   org.opencontainers.image.version="${VERSION}"

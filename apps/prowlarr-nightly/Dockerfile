@@ -5,6 +5,11 @@ ARG BUILDPLATFORM
 ARG VERSION
 USER root
 
+ENV \
+  PROWLARR__INSTANCE_NAME="Prowlarr" \
+  PROWLARR__BRANCH="nightly" \
+  PROWLARR__PORT="9696"
+
 # hadolint ignore=DL3008,DL3015
 RUN \
   apt-get -qq update \
@@ -21,13 +26,13 @@ RUN \
   esac \
   && \
   curl -fsSL -o /tmp/prowlarr.tar.gz \
-    "https://prowlarr.servarr.com/v1/update/nightly/updatefile?version=${VERSION}&os=linux&runtime=netcore&arch=${ARCH}" \
+    "https://prowlarr.servarr.com/v1/update/${PROWLARR__BRANCH}/updatefile?version=${VERSION}&os=linux&runtime=netcore&arch=${ARCH}" \
   && tar ixzf /tmp/prowlarr.tar.gz -C /app --strip-components 1 \
   && \
   rm -rf \
     /app/prowlarr.Update* \
   && \
-  printf "UpdateMethod=docker\nBranch=nightly\nPackageVersion=%s\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" "${VERSION}" > /app/package_info \
+  printf "UpdateMethod=docker\nBranch=%s\nPackageVersion=%s\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" "${PROWLARR__BRANCH}" "${VERSION}" > /app/package_info \
   && \
   apt-get autoremove -y \
   && apt-get clean \
@@ -42,13 +47,13 @@ RUN \
 
 USER kah
 
-EXPOSE 9696
+EXPOSE ${PROWLARR__PORT}/tcp
 
-COPY ./apps/prowlarr-nightly/config.xml.tmpl /app/config.xml.tmpl
-COPY ./apps/prowlarr-nightly/entrypoint.sh /entrypoint.sh
+COPY ./apps/prowlarr-${PROWLARR__BRANCH}/config.xml.tmpl /app/config.xml.tmpl
+COPY ./apps/prowlarr-${PROWLARR__BRANCH}/entrypoint.sh /entrypoint.sh
 CMD ["/entrypoint.sh"]
 
 LABEL \
-  org.opencontainers.image.title="Prowlarr" \
+  org.opencontainers.image.title="${PROWLARR__INSTANCE_NAME} - ${PROWLARR__BRANCH}" \
   org.opencontainers.image.source="https://github.com/Prowlarr/Prowlarr" \
   org.opencontainers.image.version="${VERSION}"
