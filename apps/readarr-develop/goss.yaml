@@ -10,5 +10,3 @@ port:
 http:
   http://localhost:8787:
     status: 200
-    body:
-    - '<title>Readarr</title>'

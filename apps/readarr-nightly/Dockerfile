@@ -5,6 +5,11 @@ ARG BUILDPLATFORM
 ARG VERSION
 USER root
 
+ENV \
+  READARR__INSTANCE_NAME="Readarr" \
+  READARR__BRANCH="nightly" \
+  READARR__PORT="8787"
+
 # hadolint ignore=DL3008,DL3015,SC2086
 RUN \
   apt-get -qq update \
@@ -22,13 +27,13 @@ RUN \
   esac \
   && \
   curl -fsSL -o /tmp/readarr.tar.gz \
-    "https://readarr.servarr.com/v1/update/nightly/updatefile?version=${VERSION}&os=linux&runtime=netcore&arch=${ARCH}" \
+    "https://readarr.servarr.com/v1/update/${READARR__BRANCH}/updatefile?version=${VERSION}&os=linux&runtime=netcore&arch=${ARCH}" \
   && tar ixzf /tmp/readarr.tar.gz -C /app --strip-components 1 \
   && \
   rm -rf \
     /app/readarr.Update* \
   && \
-  printf "UpdateMethod=docker\nBranch=nightly\nPackageVersion=%s\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" "${VERSION}" > /app/package_info \
+  printf "UpdateMethod=docker\nBranch=%s\nPackageVersion=%s\nPackageAuthor=[Team k8s-at-home](https://github.com/k8s-at-home)" "${READARR__BRANCH}" "${VERSION}" > /app/package_info \
   && \
   apt-get autoremove -y \
   && apt-get clean \
@@ -43,12 +48,12 @@ RUN \
 
 USER kah
 
-EXPOSE 8787
+EXPOSE ${READARR__PORT}/tcp
 
-COPY ./apps/readarr-nightly/entrypoint.sh /entrypoint.sh
+COPY ./apps/readarr-${READARR__BRANCH}/entrypoint.sh /entrypoint.sh
 CMD ["/entrypoint.sh"]
 
 LABEL \
-  org.opencontainers.image.title="Readarr" \
+  org.opencontainers.image.title="${READARR__INSTANCE_NAME} - ${READARR__BRANCH}" \
   org.opencontainers.image.source="https://github.com/Readarr/Readarr" \
   org.opencontainers.image.version="${VERSION}"
