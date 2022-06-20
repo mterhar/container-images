@@ -71,7 +71,7 @@ RUN \
   && \
   apt-get update && \
   apt-get install -y --no-install-recommends \
-    ${EXTRA_INSTALL_ARG} \
+    libva2 ${EXTRA_INSTALL_ARG} \
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && apt-get autoremove -y \
   && apt-get clean \
