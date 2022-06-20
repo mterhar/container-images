@@ -45,7 +45,6 @@ RUN \
     dnsutils \
     jq \
     locales \
-    lsb-release \
     tini \
     tzdata \
     vim-tiny \
@@ -58,8 +57,6 @@ RUN \
   && chown -R kah:kah /app \
   && \
   printf "/bin/bash /shim/greeting.sh\n" >> /etc/bash.bashrc \
-  && \
-  apt-get remove -y jq \
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && apt-get autoremove -y \
   && apt-get clean \
@@ -74,13 +71,14 @@ ENV LANG en_US.UTF-8
 
 # hadolint ignore=DL3008,DL3015
 RUN \
-  export GO_VERSION=1.16 \
+  export GO_VERSION=1.18 \
   && export GOPATH=/go \
-  && export DISTRO="$(lsb_release -s -c)" \
   && \
   apt-get update -yq \
   && apt-get install -yq \
     gnupg \
+    lsb-release \
+  && export DISTRO="$(lsb_release -s -c)" \
   && apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 52B59B1571A79DBC054901C0F6BC817356A3D45E \
   && echo "deb http://ppa.launchpad.net/longsleep/golang-backports/ubuntu $DISTRO main" | tee /etc/apt/sources.list.d/gosource.list \
   && echo "deb-src http://ppa.launchpad.net/longsleep/golang-backports/ubuntu $DISTRO main" | tee -a /etc/apt/sources.list.d/gosource.list \
@@ -92,7 +90,9 @@ RUN \
   && mv /go/bin/envsubst /usr/local/bin/envsubst \
   && envsubst --version \
   && \
-  apt-get remove -y gnupg golang-${GO_VERSION} \
+  apt-key del 52B59B1571A79DBC054901C0F6BC817356A3D45E \
+  && \
+  apt-get remove -y gnupg golang-${GO_VERSION} lsb-release \
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && apt-get autoremove -y \
   && apt-get clean \
@@ -102,6 +102,7 @@ RUN \
   && \
   rm -rf \
     /go \
+    /etc/apt/sources.list.d/gosource.list \
     /tmp/* \
     /var/lib/apt/lists/* \
     /var/cache/apt/* \
