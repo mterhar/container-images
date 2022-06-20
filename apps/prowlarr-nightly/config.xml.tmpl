@@ -1,0 +1,24 @@
+<Config>
+  <LogLevel>${PROWLARR__LOG_LEVEL:-info}</LogLevel>
+  <UrlBase>${PROWLARR__URL_BASE}</UrlBase>
+  <Branch>${PROWLARR__BRANCH:-nightly}</Branch>
+  <ApiKey>${PROWLARR__API_KEY}</ApiKey>
+  <AuthenticationMethod>${PROWLARR__AUTHENTICATION_METHOD:-External}</AuthenticationMethod>
+  <AuthenticationRequired>${PROWLARR__AUTHENTICATION_REQUIRED:-DisabledForLocalAddresses}</AuthenticationRequired>
+  <InstanceName>${PROWLARR__INSTANCE_NAME:-Prowlarr}</InstanceName>
+  <PostgresUser>${PROWLARR__POSTGRES_USER}</PostgresUser>
+  <PostgresPassword>${PROWLARR__POSTGRES_PASSWORD}</PostgresPassword>
+  <PostgresPort>${PROWLARR__POSTGRES_PORT}</PostgresPort>
+  <PostgresHost>${PROWLARR__POSTGRES_HOST}</PostgresHost>
+  <PostgresMainDb>${PROWLARR__POSTGRES_MAIN_DB}</PostgresMainDb>
+  <PostgresLogDb>${PROWLARR__POSTGRES_MAIN_LOG}</PostgresLogDb>
+  <ApplicationUrl>${PROWLARR__APPLICATION_URL}</ApplicationUrl>
+  <BindAddress>*</BindAddress>
+  <LaunchBrowser>False</LaunchBrowser>
+  <Port>7878</Port>
+  <EnableSsl>False</EnableSsl>
+  <SslPort>9898</SslPort>
+  <SslCertPath>${PROWLARR__SSL_CERT_PATH}</SslCertPath>
+  <SslCertPassword></SslCertPassword>
+  <UpdateMechanism>BuiltIn</UpdateMechanism>
+</Config>
