@@ -112,7 +112,7 @@ USER kah
 
 VOLUME [ "/config" ]
 
-COPY ./base/ubuntu/shim /shim
+COPY ./base/ubuntu-focal/shim /shim
 
 ENTRYPOINT [ "/usr/bin/tini", "--" ]
 
