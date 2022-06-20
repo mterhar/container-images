@@ -6,7 +6,6 @@ ARG VERSION
 
 USER root
 WORKDIR /tmp
-SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 RUN \
   echo "**** set the platform ****" \
@@ -83,11 +82,12 @@ RUN \
     /var/lib/apt/lists/* \
     /var/tmp/ \
   && chown -R kah:kah /app \
-  && chmod -R u=rwX,go=rX "${APP_DIR}" \
+  && chmod -R u=rwX,go=rX /app \
   && printf "umask %d" "${UMASK}" >> /etc/bash.bashrc
 
 COPY --from=builder /app/emby /app/emby
 USER kah
+WORKDIR /app
 
 EXPOSE 8096 8920
 
