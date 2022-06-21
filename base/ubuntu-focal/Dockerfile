@@ -119,5 +119,5 @@ ENTRYPOINT [ "/usr/bin/tini", "--" ]
 
 LABEL \
   org.opencontainers.image.base.name="ghcr.io/k8s-at-home/ubuntu-focal" \
-  org.opencontainers.image.base.version="${VERSION}"
+  org.opencontainers.image.base.version="${VERSION}" \
   org.opencontainers.image.authors="Devin Buhl <devin.kray@gmail.com>, Bernd Schorgers <me@bjw-s.dev>"
