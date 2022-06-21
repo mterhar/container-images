@@ -19,6 +19,9 @@ ENV NVIDIA_DRIVER_CAPABILITIES="compute,video,utility" \
 RUN \
   apt-get -qq update \
   && \
+  apt-get -qq install -y \
+    gnupg2 \
+  && \
   case "${TARGETPLATFORM}" in \
     'linux/amd64') \
         curl -sL https://repositories.intel.com/graphics/intel-graphics.key | apt-key add - \
@@ -50,7 +53,7 @@ RUN \
   && \
   dpkg -i --force-confold /tmp/plex.deb \
   && \
-  apt-get remove -y aria2 \
+  apt-get remove -y aria2 gnupg2 \
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && apt-get autoremove -y \
   && apt-get clean \

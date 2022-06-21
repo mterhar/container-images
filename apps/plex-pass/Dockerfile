@@ -55,18 +55,18 @@ RUN \
   && \
   case "${TARGETPLATFORM}" in \
     'linux/amd64') \
-        aria2c -d /tmp -o plex.rpm "${DOWNLOAD_URL}"; \
+        aria2c -d /tmp -o plex.rpm "${DOWNLOAD_URL}" \
         && \
         rpm2cpio /tmp/plex.rpm | cpio -i --make-directories; \
     ;; \
     'linux/arm64') \
-        aria2c -d /tmp -o plex.deb "${DOWNLOAD_URL}"; \
+        aria2c -d /tmp -o plex.deb "${DOWNLOAD_URL}" \
         && \
         dpkg -i --force-confold /tmp/plex.deb; \
     ;; \
   esac \
   && \
-  apt-get remove -y aria2 ${EXTRA_INSTALL_TEMP} \
+  apt-get remove -y aria2 gnupg2 ${EXTRA_INSTALL_TEMP} \
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && apt-get autoremove -y \
   && apt-get clean \
