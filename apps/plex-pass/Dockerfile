@@ -29,14 +29,10 @@ RUN \
         && \
         export ARCH='amd64'; \
         export EXTRA_INSTALL_ARG='intel-opencl-icd=21.49.21786+i643~u20.04'; \
-        export EXTRA_INSTALL_TEMP='cpio rpm2cpio'; \
-        export DOWNLOAD_URL="${PLEX_DOWNLOAD}/${VERSION}/redhat/plexmediaserver-${VERSION}.x86_64.rpm"; \
     ;; \
     'linux/arm64') \
         export ARCH='arm64'; \
         export EXTRA_INSTALL_ARG=''; \
-        export EXTRA_INSTALL_TEMP=''; \
-        export DOWNLOAD_URL="${PLEX_DOWNLOAD}/${VERSION}/debian/plexmediaserver_${VERSION}_arm64.deb"; \
         unset NVIDIA_DRIVER_CAPABILITIES; \
     ;; \
   esac \
@@ -49,24 +45,15 @@ RUN \
     xmlstarlet \
     ca-certificates \
     ${EXTRA_INSTALL_ARG} \
-    ${EXTRA_INSTALL_TEMP} \
   && \
   echo "Using curl or wget to download the plex debian package result in a qemu failure, why? I dunno" \
   && \
-  case "${TARGETPLATFORM}" in \
-    'linux/amd64') \
-        aria2c -d /tmp -o plex.rpm "${DOWNLOAD_URL}" \
-        && \
-        rpm2cpio /tmp/plex.rpm | cpio -i --make-directories; \
-    ;; \
-    'linux/arm64') \
-        aria2c -d /tmp -o plex.deb "${DOWNLOAD_URL}" \
-        && \
-        dpkg -i --force-confold /tmp/plex.deb; \
-    ;; \
-  esac \
+  aria2c -d /tmp -o plex.deb \
+    "${PLEX_DOWNLOAD}/${VERSION}/debian/plexmediaserver_${VERSION}_${ARCH}.deb" \
   && \
-  apt-get remove -y aria2 gnupg2 ${EXTRA_INSTALL_TEMP} \
+  dpkg -i --force-confold /tmp/plex.deb \
+  && \
+  apt-get remove -y aria2 gnupg2 \
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && apt-get autoremove -y \
   && apt-get clean \
@@ -86,7 +73,7 @@ WORKDIR "${PLEX_MEDIA_SERVER_HOME}"
 
 EXPOSE 32400/tcp 1900/udp 3005/tcp 5353/udp 8324/tcp 32410/udp 32412/udp 32413/udp 32414/udp 32469/tcp
 
-COPY ./apps/plex/shim/plex-preferences.sh /shim/plex-preferences.sh
+COPY ./apps/plex-pass/shim/plex-preferences.sh /shim/plex-preferences.sh
 
-COPY ./apps/plex/entrypoint.sh /entrypoint.sh
+COPY ./apps/plex-pass/entrypoint.sh /entrypoint.sh
 CMD ["/entrypoint.sh"]

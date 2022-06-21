@@ -8,3 +8,5 @@ version="${version}-$(grep -oP "(?<=_pkgsum=).*" ./plex-media-server-plexpass/PK
 version="${version#*v}"
 version="${version#*release-}"
 printf "%s" "${version}"
+
+rm -rf plex-media-server-plexpass
