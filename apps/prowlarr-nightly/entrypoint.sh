@@ -19,7 +19,6 @@ if [[ -f /config/config.xml ]]; then
     current_postgres_host="$(xmlstarlet sel -t -v "//PostgresHost" -nl /config/config.xml)"
     current_postgres_main_db="$(xmlstarlet sel -t -v "//PostgresMainDb" -nl /config/config.xml)"
     current_postgres_log_db="$(xmlstarlet sel -t -v "//PostgresLogDb" -nl /config/config.xml)"
-    current_application_url="$(xmlstarlet sel -t -v "//ApplicationUrl" -nl /config/config.xml)"
 fi
 
 # Update config.xml with environment variables
@@ -39,7 +38,6 @@ fi
 [[ -z "${PROWLARR__POSTGRES_HOST}" && -n "${current_postgres_host}" ]] && xmlstarlet edit --inplace --update //PostgresHost -v "${current_postgres_host}" /config/config.xml
 [[ -z "${PROWLARR__POSTGRES_MAIN_DB}" &&  -n "${current_postgres_main_db}" ]] && xmlstarlet edit --inplace --update //PostgresMainDb -v "${current_postgres_main_db}" /config/config.xml
 [[ -z "${PROWLARR__POSTGRES_MAIN_LOG}" && -n "${current_postgres_log_db}" ]] && xmlstarlet edit --inplace --update //PostgresLogDb -v "${current_postgres_log_db}" /config/config.xml
-[[ -z "${PROWLARR__APPLICATION_URL}" && -n "${current_application_url}" ]] && xmlstarlet edit --inplace --update //ApplicationUrl -v "${current_application_url}" /config/config.xml
 
 # BindAddress, LaunchBrowser, Port, EnableSsl, SslPort, SslCertPath, SslCertPassword, UpdateMechanism
 # have been omited because their configuration is not really needed in a container environment
