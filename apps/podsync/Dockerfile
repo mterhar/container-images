@@ -24,7 +24,7 @@ RUN \
   && git checkout v${VERSION} \
   && go build -o /bin/podsync ./cmd/podsync
 
-FROM ghcr.io/k8s-at-home/ubuntu-focal:rolling@sha256:bde16452d4d697b12405a948fd1f3f9954aeb3c84808fd84700768dc24d88282
+FROM ghcr.io/k8s-at-home/ubuntu-focal:rolling@sha256:7f1b8af0e171af574601647215678391d11bff9236525a190e55f5a53e1d5505
 
 # hadolint ignore=DL3002
 USER root
