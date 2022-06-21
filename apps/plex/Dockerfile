@@ -28,7 +28,7 @@ RUN \
         && echo 'deb [arch=amd64] https://repositories.intel.com/graphics/ubuntu focal main' > /etc/apt/sources.list.d/intel.list \
         && \
         export ARCH='amd64'; \
-        export EXTRA_INSTALL_ARG='intel-opencl-icd'; \
+        export EXTRA_INSTALL_ARG='intel-opencl-icd=21.49.21786+i643~u20.04'; \
     ;; \
     'linux/arm64') \
         export ARCH='arm64'; \
