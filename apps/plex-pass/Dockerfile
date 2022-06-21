@@ -19,6 +19,9 @@ ENV NVIDIA_DRIVER_CAPABILITIES="compute,video,utility" \
 RUN \
   apt-get -qq update \
   && \
+  apt-get -qq install -y \
+    gnupg2 \
+  && \
   case "${TARGETPLATFORM}" in \
     'linux/amd64') \
         curl -sL https://repositories.intel.com/graphics/intel-graphics.key | apt-key add - \
@@ -26,10 +29,14 @@ RUN \
         && \
         export ARCH='amd64'; \
         export EXTRA_INSTALL_ARG='intel-opencl-icd=21.49.21786+i643~u20.04'; \
+        export EXTRA_INSTALL_TEMP='cpio rpm2cpio'; \
+        export DOWNLOAD_URL="${PLEX_DOWNLOAD}/${VERSION}/redhat/plexmediaserver-${VERSION}.x86_64.rpm"; \
     ;; \
     'linux/arm64') \
         export ARCH='arm64'; \
         export EXTRA_INSTALL_ARG=''; \
+        export EXTRA_INSTALL_TEMP=''; \
+        export DOWNLOAD_URL="${PLEX_DOWNLOAD}/${VERSION}/debian/plexmediaserver_${VERSION}_arm64.deb"; \
         unset NVIDIA_DRIVER_CAPABILITIES; \
     ;; \
   esac \
@@ -42,15 +49,24 @@ RUN \
     xmlstarlet \
     ca-certificates \
     ${EXTRA_INSTALL_ARG} \
+    ${EXTRA_INSTALL_TEMP} \
   && \
   echo "Using curl or wget to download the plex debian package result in a qemu failure, why? I dunno" \
   && \
-  aria2c -d /tmp -o plex.deb \
-    "${PLEX_DOWNLOAD}/${VERSION}/debian/plexmediaserver_${VERSION}_${ARCH}.deb" \
+  case "${TARGETPLATFORM}" in \
+    'linux/amd64') \
+        aria2c -d /tmp -o plex.rpm "${DOWNLOAD_URL}"; \
+        && \
+        rpm2cpio /tmp/plex.rpm | cpio -i --make-directories; \
+    ;; \
+    'linux/arm64') \
+        aria2c -d /tmp -o plex.deb "${DOWNLOAD_URL}"; \
+        && \
+        dpkg -i --force-confold /tmp/plex.deb; \
+    ;; \
+  esac \
   && \
-  dpkg -i --force-confold /tmp/plex.deb \
-  && \
-  apt-get remove -y aria2 \
+  apt-get remove -y aria2 ${EXTRA_INSTALL_TEMP} \
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && apt-get autoremove -y \
   && apt-get clean \
