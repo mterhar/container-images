@@ -1,0 +1,14 @@
+---
+process:
+  node:
+    running: true
+
+port:
+  tcp:5006:
+    listening: true
+
+http:
+  http://localhost:5006:
+    status: 200
+    body:
+      - '<title>Actual</title>'
