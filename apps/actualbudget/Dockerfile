@@ -24,8 +24,8 @@ COPY entrypoint.sh /entrypoint.sh
 
 RUN npm install -g -s --no-progress yarn && \
     npm rebuild bcrypt --build-from-source && \
-    mkdir -p /home/kah && \
-    chown -R kah:kah /app /home/kah/ && \
+    mkdir -p /home/kah && mkdir -p /data/user-files && mkdir -p /data/server-files && \
+    chown -R kah:kah /app /home/kah/ /data && \
     chmod +x /entrypoint.sh 
 
 USER kah
@@ -37,6 +37,7 @@ RUN yarn install --production
 
 EXPOSE 5006
 
-VOLUME ["/app/user-files", "/app/server-files"]
+VOLUME ["/data/user-files", "/data/server-files"]
 
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["/usr/bin/tini","-g",  "--"]
+CMD ["/entrypoint.sh"]
